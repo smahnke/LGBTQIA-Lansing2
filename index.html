@@ -19,7 +19,65 @@
       </style>
 
 	    <script type="text/javascript">
-	      
+	      	var map;
+		var metroLayer;
+
+		function init() {
+  
+ 		 // create map and set center and zoom level
+  		map = new L.map('mapid');
+  		map.setView([-28,-62],3);
+
+  		var selection;
+  		var selectedLayer;
+  		var selectedFeature;
+
+  		// create and add osm tile layer
+		var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  		maxZoom: 19,
+  		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		});
+		osm.addTo(map);
+
+		// create stamen osm layer (not adding it to map)
+		var stamen = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
+ 		 maxZoom: 19,
+  		attribution: '&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a> and contributors, under an <a href="http://www.openstreetmap.org/copyright" title="ODbL">open license</a>. Toner style by <a href="http://stamen.com">Stamen Design</a>'
+		});
+
+		// create metro icons
+		var metroLowIcon = L.icon({
+ 		 iconUrl: 'metro_low.svg',
+ 		 iconSize: [25,25]
+		});
+
+		var metroMediumIcon = L.icon({
+ 		 iconUrl: 'metro_medium.svg',
+  		iconSize: [25,25]
+		});
+
+		var metroHighIcon = L.icon({
+		iconUrl: 'metro_high.svg',
+  		iconSize: [25,25]
+		});
+
+		var metroSelected = L.icon({
+  		iconUrl: 'metro_selected.svg',
+  		iconSize: [25,25]
+		});
+          
+		// add the metro GeoJSON layer
+		var metroLayer = L.geoJson(metroData,{
+  		pointToLayer: function (feature, latlng) {
+    		return L.marker(latlng, {icon: iconByPassday(feature)});
+  		},
+  		onEachFeature: metrosOnEachFeature
+		});
+
+		metroLayer.addTo(map);
+
+		. . .
+		}
 	        
 	    </script>
 	  </head>
