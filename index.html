@@ -26,16 +26,16 @@
   
  		 // create map and set center and zoom level
   		map = new L.map('mapid');
-  		map.setView([-28,-62],3);
+  		map.setView([42.734447, -84.545577],14);
 
   		var selection;
   		var selectedLayer;
   		var selectedFeature;
 
   		// create and add osm tile layer
-		var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		var osm = L.tileLayer('http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
   		maxZoom: 19,
-  		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  		attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 		});
 		osm.addTo(map);
 
