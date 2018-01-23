@@ -45,106 +45,66 @@
   		attribution: '&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a> and contributors, under an <a href="http://www.openstreetmap.org/copyright" title="ODbL">open license</a>. Toner style by <a href="http://stamen.com">Stamen Design</a>'
 		});
 
-		// create metro icons
-		var metroLowIcon = L.icon({
- 		 iconUrl: 'metro_low.svg',
- 		 iconSize: [25,25]
+		var lgbtIcon = L.icon({
+			iconUrl: 'https://www.thecenterproject.org/wp-content/uploads/2016/07/Rainbow-Map-Marker-180x270.png',
+			iconSize:[25,25]
 		});
 
-		var metroMediumIcon = L.icon({
- 		 iconUrl: 'metro_medium.svg',
-  		iconSize: [25,25]
+		var selectedLgbtIcon = L.icon({
+			iconUrl: 'https://www.thecenterproject.org/wp-content/uploads/2016/07/Rainbow-Map-Marker-180x270.png',
+			iconSize: [25,25]
 		});
 
-		var metroHighIcon = L.icon({
-		iconUrl: 'metro_high.svg',
-  		iconSize: [25,25]
-		});
+		// handle click events on lgbt features
+		function lgbtOnEachFeature(feature,layer){
+		layer.on({
+		click: function(e) {
+			if (selection) {
+			resetStyles();
+			}
 
-		var metroSelected = L.icon({
-  		iconUrl: 'metro_selected.svg',
-  		iconSize: [25,25]
-		});
-          
-		// add the metro GeoJSON layer
-		var metroLayer = L.geoJson(metroData,{
-  		pointToLayer: function (feature, latlng) {
-    		return L.marker(latlng, {icon: iconByPassday(feature)});
-  		},
-  		onEachFeature: metrosOnEachFeature
-		});
+		e.target.setIcon(selectedLgbtIcon);
+		selection = e.target;
+		selectedLayer = metroLayer;
 
-		metroLayer.addTo(map);
+		// Insert some HTML with the feature name
+		buildSummaryLabel(feature);
 
-		// define basemap and thematic layers and add layer switcher control
-		var basemaps = {
-  			"OSM": osm,
-  			"Stamen": stamen
-		};
-
-		var overlays = {
-  		"LGBTQIA Sites": metroLayer
- 		};
-
-		L.control.layers(basemaps,overlays).addTo(map);
-
-		// define functions that right icon for a given feature
-		function iconByPassday(feature) {
-  			var icon;
-  		if (feature.properties.PASSDAY >= 2000000) icon = metroHighIcon;
-  		else if (feature.properties.PASSDAY >= 1000000) icon = metroMediumIcon;
-  		else icon = metroLowIcon;
-
-  		return icon;
-		} 
-
-		// define function to handle click events on metro features
-		function metrosOnEachFeature(feature, layer){
-  			layer.on({
-    			click: function(e) {
-      		// reset symbol of old selection
-      		if (selection) {
-        	if (selectedLayer === metroLayer) selection.setIcon(iconByPassday(selectedFeature));
-      		}
-                  
-      		// apply yellow icon to newly selected metro and update selection variables
-      		e.target.setIcon(metroSelected);
-      		selection = e.target;
-      		selectedLayer = metroLayer;
-      		selectedFeature = feature;
-                  
-      		// using attributes, construct some HTML to write into the page
-      		var featureName = feature.properties.CITY || 'Unnamed feature';
-      		var country = feature.properties.COUNTRY || '(Unknown)';
-      		var year = feature.properties.YEAR || '(Unknown)';
-      		var passengers = feature.properties.PASSDAY || '(Unknown)';
-      		var stations = feature.properties.STATIONS || '(Unknown)';
-      		var length = feature.properties.LENGTHKM || '(Unknown)';
-      		var link = feature.properties.LINK || 'http://www.wikipedia.org';
-      		var photoHtml = feature.properties.PHOTO || '<P>Photo not available</P>';
-      		var titleHtml = '<p style="font-size:18px"><b>' + featureName + '</b></p>';
-      		var descripHtml = '<p>The ' + featureName + ', ' + country + ' metro opened in ' + year + ' and currently serves ' + passengers + ' passengers a day. The network consists of ' + stations + ' stations spread over ' + length + ' kilometers.</p>';
-      		var readmoreHtml = '<p><a href="' + link + '">Read more</a></p>';
-      		document.getElementById('summaryLabel').innerHTML = titleHtml + descripHtml + readmoreHtml;
-      		document.getElementById('metroImage').innerHTML = photoHtml;
-
-      		L.DomEvent.stopPropagation(e); // stop click event from being propagated further
-    		}
-  		});
+		L.DomEvent.stopPropagation(e); // stop click event from being propagated further
 		}
+	});
+}
 
-		// define and register event handler for click events to unselect features when clicked anywhere else on the map
-		map.addEventListener('click', function(e) {
-  			if (selection) {
-    				if (selectedLayer === metroLayer) selection.setIcon(iconByPassday(selectedFeature));
+	// add the gardens GeoJSON layer using the LgbtData variable from metro.js
+	metroLayer = new L.geoJSON(LgbtData, {
+		pointToLayer: function (feature, latlng) {
+		return L.marker(latlng, {icon: lgbtIcon});
+		},
+		onEachFeature: lgbtOnEachFeature
+	}
+);
 
-    		selection = null;
+	metroLayer.addTo(map);
 
-    		document.getElementById('summaryLabel').innerHTML = '<p>Click a metro rail system on the map to get more information.</p>';
-    		document.getElementById('metroImage').innerHTML = ''
-  		}
-		});
-		}
+	// handle clicks on the map that didn't hit a feature
+	map.addEventListener('click', function(e) {
+		if (selection) {
+		resetStyles();
+		selection = null;
+		document.getElementById('summaryLabel').innerHTML = '<p>Click a site on the map to get more information.</p>';
+	}
+});
+
+	// function to set the old selected feature back to its original symbol. Used when the map or a feature is clicked.
+	function resetStyles(){
+		if (selectedLayer === metroLayer) selection.setIcon(lgbtIcon);
+	}
+
+	// function to build the HTML for the summary label using the selected feature's "name" property
+	function buildSummaryLabel(currentFeature){
+	var featureName = currentFeature.properties.name || "Unnamed feature";
+	document.getElementById('summaryLabel').innerHTML = '<p style="font-size:18px"><b>' + featureName + '</b></p>';
+	}
 	        
 	    </script>
 	  </head>
