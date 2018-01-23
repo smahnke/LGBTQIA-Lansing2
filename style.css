@@ -8,30 +8,3 @@
     background: #fff;
 }
 
-
-.navbar-default .navbar-brand,
-.navbar-default .navbar-brand:hover {
-  color: #fff;
-}
-
-.navbar-default .navbar-brand {
-  padding-left: 5px;
-}
-
-.navbar-default .navbar-brand:hover {
-  cursor: default;
-}
-
-.navbar-toggle {
-  background-color: #fff;
-}
-
-ul.nav.navbar-nav.navbar-right a {
-  color: #fff;
-  font-weight: bold;
-  transition: color 0.4s;
-}
-
-ul.nav.navbar-nav.navbar-right li a:hover {
-  color: #000;
-}
