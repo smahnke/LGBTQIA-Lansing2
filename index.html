@@ -20,30 +20,23 @@
 
 	    <script type="text/javascript">
 	      	var map;
-		var metroLayer;
 
 		function init() {
-  
  		 // create map and set center and zoom level
   		map = new L.map('mapid');
   		map.setView([42.734447, -84.545577],14);
 
-  		var selection;
-  		var selectedLayer;
-  		var selectedFeature;
-
-  		// create and add osm tile layer
-		var osm = L.tileLayer('http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
+  		// create and add the tile layer
+		var tiles = L.tileLayer('http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
   		maxZoom: 19,
   		attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 		});
-		osm.addTo(map);
+		tiles.addTo(map);
 
-		// create stamen osm layer (not adding it to map)
-		var stamen = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
- 		 maxZoom: 19,
-  		attribution: '&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a> and contributors, under an <a href="http://www.openstreetmap.org/copyright" title="ODbL">open license</a>. Toner style by <a href="http://stamen.com">Stamen Design</a>'
-		});
+		var siteLayer;
+		
+		var selection;
+		var selectedLayer;
 
 		var LgbtIcon = L.icon({
 			iconUrl: 'QueerMarker.png',
@@ -54,26 +47,59 @@
 			iconUrl: 'QueerMarker.png',
 			iconSize: [25,25]
 		});
-		
-		var basemaps = {
-  		"OSM": osm,
-  		"Stamen": stamen
-		};
 
-		var overlays = {
-		  "LGBTQIA Sites": metroLayer
-		 };
+		// handle click events on site features
+		function siteOnEachFeature(feature,layer){
+		layer.on({
+		   click: function(e) {
+			if (selection) {
+			resetStyles();
+			}
 
-		L.control.layers(basemaps,overlays).addTo(map);
-		
-		var TramBar = L.popup()
-      		.setLatLng([42.734447, -84.545577])
-      		.setContent("<p><h2>Trammps Bar (1976 - 90's)</h2><br /><img src='https://raw.githubusercontent.com/smahnke/QR-Map3/gh-pages/trammps.jpg'/><br /><h3>Emergence:</h3>The first gay owned club in Lansing, Trammps was the Studio 54 of the gay scene, often competing with Joe Covello's next door.<br /><h3>Departure:</h3>demolished in the 90s after the city bought the block of businesses for a new baseball stadium.</p>")
-  
-    		var Trammps = L.marker([42.734447, -84.545577], {icon: LgbtIcon}).bindPopup(TramBar).addTo(map);
+			e.target.setIcon(selectedsiteIcon);
+			selection = e.target;
+			selectedLayer = siteLayer;
 
-		// handle click events on lgbt features
-			
+			// Insert some HTML with the feature name
+			buildSummaryLabel(feature);
+
+			L.DomEvent.stopPropagation(e); // stop click event from being propagated further
+			}
+		});
+	}
+
+	// add the gardens GeoJSON layer using the siteData variable from metro.js
+	siteLayer = new L.geoJSON(siteData, {
+		pointToLayer: function (feature, latlng) {
+		    return L.marker(latlng, {icon: LgbtIcon});
+		},
+		onEachFeature: siteOnEachFeature
+		}
+	);
+
+	siteLayer.addTo(map);
+
+	// handle clicks on the map that didn't hit a feature
+	map.addEventListener('click', function(e) {
+		if (selection) {
+		   resetStyles();
+		   selection = null;
+		   document.getElementById('summaryLabel').innerHTML = '<p>Click a site on the map to get more information.</p>';
+		}
+	});
+
+	// function to set the old selected feature back to its original symbol. Used when the map or a feature is clicked.
+	function resetStyles(){
+		if (selectedLayer === siteLayer) selection.setIcon(LgbtIcon);
+	selectedLayer.resetStyle(selection);
+	}
+
+	// function to build the HTML for the summary label using the selected feature's "name" property
+	function buildSummaryLabel(currentFeature){
+	    var featureName = currentFeature.properties.name || "Unnamed feature";
+	    document.getElementById('summaryLabel').innerHTML = '<p style="font-size:18px"><b>' + featureName + '</b></p>';
+	}
+}	
 	    </script>
 	  </head>
 
