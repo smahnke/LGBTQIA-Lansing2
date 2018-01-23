@@ -46,12 +46,12 @@
 		});
 
 		var LgbtIcon = L.icon({
-			iconUrl: 'https://www.thecenterproject.org/wp-content/uploads/2016/07/Rainbow-Map-Marker-180x270.png',
+			iconUrl: 'QueerMarker.png',
 			iconSize:[25,25]
 		});
 
 		var selectedLgbtIcon = L.icon({
-			iconUrl: 'https://www.thecenterproject.org/wp-content/uploads/2016/07/Rainbow-Map-Marker-180x270.png',
+			iconUrl: 'QueerMarker.png',
 			iconSize: [25,25]
 		});
 		
@@ -70,59 +70,9 @@
       		.setLatLng([42.734447, -84.545577])
       		.setContent("<p><h2>Trammps Bar (1976 - 90's)</h2><br /><img src='https://raw.githubusercontent.com/smahnke/QR-Map3/gh-pages/trammps.jpg'/><br /><h3>Emergence:</h3>The first gay owned club in Lansing, Trammps was the Studio 54 of the gay scene, often competing with Joe Covello's next door.<br /><h3>Departure:</h3>demolished in the 90s after the city bought the block of businesses for a new baseball stadium.</p>")
   
-    		var Trammps = L.marker([42.734447, -84.545577], {icon: lgbtIcon}).bindPopup(TramBar).addTo(map);
+    		var Trammps = L.marker([42.734447, -84.545577], {icon: LgbtIcon}).bindPopup(TramBar).addTo(map);
 
 		// handle click events on lgbt features
-		function lgbtOnEachFeature(feature,layer){
-		layer.on({
-		click: function(e) {
-			if (selection) {
-			resetStyles();
-			}
-
-		e.target.setIcon(selectedLgbtIcon);
-		selection = e.target;
-		selectedLayer = metroLayer;
-
-		// Insert some HTML with the feature name
-		buildSummaryLabel(feature);
-
-		L.DomEvent.stopPropagation(e); // stop click event from being propagated further
-		}
-	});
-}
-
-	// add the gardens GeoJSON layer using the LgbtData variable from metro.js
-	metroLayer = new L.geoJSON(LgbtData, {
-		pointToLayer: function (feature, latlng) {
-		return L.marker(latlng, {icon: lgbtIcon});
-		},
-		onEachFeature: lgbtOnEachFeature
-	}
-);
-
-	metroLayer.addTo(map);
-
-	// handle clicks on the map that didn't hit a feature
-	map.addEventListener('click', function(e) {
-		if (selection) {
-		resetStyles();
-		selection = null;
-		document.getElementById('summaryLabel').innerHTML = '<p>Click a site on the map to get more information.</p>';
-	}
-});
-
-	// function to set the old selected feature back to its original symbol. Used when the map or a feature is clicked.
-	function resetStyles(){
-		if (selectedLayer === metroLayer) selection.setIcon(lgbtIcon);
-	}
-
-	// function to build the HTML for the summary label using the selected feature's "name" property
-	function buildSummaryLabel(currentFeature){
-	var featureName = currentFeature.properties.name || "Unnamed feature";
-	document.getElementById('summaryLabel').innerHTML = '<p style="font-size:18px"><b>' + featureName + '</b></p>';
-	}
-}
 			
 	    </script>
 	  </head>
