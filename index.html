@@ -45,7 +45,7 @@
   		attribution: '&copy; <a href="http://www.openstreetmap.org/">OpenStreetMap</a> and contributors, under an <a href="http://www.openstreetmap.org/copyright" title="ODbL">open license</a>. Toner style by <a href="http://stamen.com">Stamen Design</a>'
 		});
 
-		var lgbtIcon = L.icon({
+		var LgbtIcon = L.icon({
 			iconUrl: 'https://www.thecenterproject.org/wp-content/uploads/2016/07/Rainbow-Map-Marker-180x270.png',
 			iconSize:[25,25]
 		});
@@ -65,6 +65,12 @@
 		 };
 
 		L.control.layers(basemaps,overlays).addTo(map);
+		
+		var TramBar = L.popup()
+      		.setLatLng([42.734447, -84.545577])
+      		.setContent("<p><h2>Trammps Bar (1976 - 90's)</h2><br /><img src='https://raw.githubusercontent.com/smahnke/QR-Map3/gh-pages/trammps.jpg'/><br /><h3>Emergence:</h3>The first gay owned club in Lansing, Trammps was the Studio 54 of the gay scene, often competing with Joe Covello's next door.<br /><h3>Departure:</h3>demolished in the 90s after the city bought the block of businesses for a new baseball stadium.</p>")
+  
+    		var Trammps = L.marker([42.734447, -84.545577], {icon: lgbtIcon}).bindPopup(TramBar).addTo(map);
 
 		// handle click events on lgbt features
 		function lgbtOnEachFeature(feature,layer){
