@@ -100,9 +100,10 @@
 	    var address = currentFeature.properties.address || "(Unknown)";
 	    var year = currentFeature.properties.year || "(Unknown)";
 	    var link = currentFeature.properties.website || "(Unknown)";
-	    var descrip = currentFeature.properties.description || "(Unknown)";
-	    var titleHtml = '<p style="font-size:18px"><b>' + featureName + '</b> opened in '+ year +' at '+ address +'</p>';
-	    var descripHtml = '<p>descrip</p>';
+	    var emergence = currentFeature.properties.emergence || "(Unknown)";
+	    var departure = currentFeature.properties.departure || "(still in business)";
+	    var titleHtml = '<p style="font-size:18px"><b>' + featureName + '</b> open '+ year +' at '+ address +'</p>';
+	    var descripHtml = '<p><b>Emergence:</b>'+ emergence +' <b>Departure:</b> '+ departure +'</p>';
 	    var readmoreHtml = '<p><a href="' + link + '">Read more</a></p>';
 	    document.getElementById('summaryLabel').innerHTML = titleHtml + descripHtml + readmoreHtml;
 	}
