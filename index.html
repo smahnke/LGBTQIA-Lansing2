@@ -97,7 +97,14 @@
 	// function to build the HTML for the summary label using the selected feature's "name" property
 	function buildSummaryLabel(currentFeature){
 	    var featureName = currentFeature.properties.name || "Unnamed feature";
-	    document.getElementById('summaryLabel').innerHTML = '<p style="font-size:18px"><b>' + featureName + '</b></p>';
+	    var address = currentFeature.properties.address || "(Unknown)";
+	    var year = currentFeature.properties.year || "(Unknown)";
+	    var link = currentFeature.properties.website || "(Unknown)";
+	    var descrip = currentFeature.properties.description || "(Unknown)";
+	    var titleHtml = '<p style="font-size:18px"><b>' + featureName + '</b> opened in '+ year +' at '+ address +'</p>';
+	    var descripHtml = '<p>descrip</p>';
+	    var readmoreHtml = '<p><a href="' + link + '">Read more</a></p>';
+	    document.getElementById('summaryLabel').innerHTML = titleHtml + descripHtml + readmoreHtml;
 	}
 }	
 	    </script>
