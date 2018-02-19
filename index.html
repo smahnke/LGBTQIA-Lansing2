@@ -104,7 +104,7 @@
 	    var departure = currentFeature.properties.departure || "(still in business)";
 	    var photoHtml = currentFeature.properties.photo || "(photo unavailable)";
 	    var titleHtml = '<p style="font-size:18px"><b>' + featureName + '</b> open '+ year +' at '+ address +'</p>';
-	    var descripHtml = '<p><b>Emergence:</b>'+ emergence +' <b>Departure:</b> '+ departure +'</p>';
+	    var descripHtml = '<p><b>Emergence:</b>'+ emergence +' <br /><b>Departure:</b> '+ departure +'</p>';
 	    var readmoreHtml = '<p><a href="' + link + '">Read more</a></p>';
 	    document.getElementById('summaryLabel').innerHTML = titleHtml + descripHtml + readmoreHtml;
 	    document.getElementById('photoImage').innerHTML = photoHtml;
@@ -138,7 +138,6 @@
                 <div>
                   <table>
                     <tr>
-                      <td><img src="LGBT_Legend.png" width="233" height="126"/></td>
                       <td id = 'summaryLabel'><p>Click a rainbow marker on the map to get more information.</p></td>
                     </tr>
                   </table>
