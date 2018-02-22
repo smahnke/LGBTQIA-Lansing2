@@ -4,6 +4,11 @@
     border: 1px solid #ccc;
 }
 
+p2 {
+    margin: 20px;
+    padding: 40px;
+}
+
 .leaflet-container {
     background: #fff;
 }
