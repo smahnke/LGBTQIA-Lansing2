@@ -4,10 +4,6 @@
     border: 1px solid #ccc;
 }
 
-ul li ul {
-    margin-left: 10px;
-}
-
 .leaflet-container {
     background: #fff;
 }
