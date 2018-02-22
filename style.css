@@ -4,9 +4,8 @@
     border: 1px solid #ccc;
 }
 
-p2 {
-    margin: 20px;
-    padding: 40px;
+ul li ul {
+    margin-left: 10px;
 }
 
 .leaflet-container {
