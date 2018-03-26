@@ -1,8 +1,8 @@
 <?php
-$field_name = $_POST['name'];
-$field_email = $_POST['email'];
-$field_phone = $_POST['phone'];
-$field_message = $_POST['message'];
+$field_name = $_POST['cf_name'];
+$field_email = $_POST['cf_email'];
+$field_phone = $_POST['cf_phone'];
+$field_message = $_POST['cf_message'];
 
 $mail_to = 'steph.mahnke@gmail.com';
 $subject = 'Message from a site visitor '.$field_name;
