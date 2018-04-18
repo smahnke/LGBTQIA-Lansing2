@@ -27,7 +27,7 @@
   		map.setView([42.734447, -84.545577],14);
 
   		// create and add the tile layer
-		var tiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic21haG5rZSIsImEiOiJjajZ2NDNjZmMxaGdqMndsYWQ0bWsxbjBmIn0.BFkeSjbL_ummpFnHdGMXmA', {
+		var tiles = L.tileLayer('http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
   		maxZoom: 19,
   		attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 		});
